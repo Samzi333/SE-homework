@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.jnu.sudokudos.dataprocess.Map
+import com.jnu.sudokudos.dataprocess.MapTool
 import com.jnu.sudokudos.dataprocess.Qbank
 import com.jnu.sudokudos.jsudoku.Board
 
@@ -17,10 +17,9 @@ class SudoActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sudoku)
 
-        Qbank.Load()
-        var map: Map = Map(Qbank.getSimpleMap());
+        Qbank.loadMap()
         mSudoKu = findViewById(R.id.board)
-        mSudoConfig = map.toString()
+        mSudoConfig = Qbank.getSimpleMap();
         mSudoKu.setGameOverCallBack {
             AlertDialog.Builder(this).setTitle("awesome!")
                 .setMessage("Congratulations，you solve the Sudoku!")

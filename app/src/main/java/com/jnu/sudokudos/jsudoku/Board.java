@@ -48,9 +48,12 @@ public class Board extends RelativeLayout implements View.OnClickListener {
         int padding = DensityUtils.dp2px(context, 1);
         setPadding(padding, padding, padding, padding);
         setBackgroundColor(Color.BLACK);
+        // 3*3 个九宫格Grid
+        // 处理方式和Grid处理tv基本一致
         for (int i = 0; i < 3; i++) {
             List<Grid> gridList = new ArrayList<>();
             for (int j = 0; j < 3; j++) {
+                // 第 i,j 个Grid
                 Grid grid = new Grid(context, attrs, defStyleAttr);
                 grid.setId(View.generateViewId());
                 addView(grid);
@@ -80,15 +83,21 @@ public class Board extends RelativeLayout implements View.OnClickListener {
             mGridArray.add(gridList);
         }
 
+        // CellArray存9*9个textView
         mCellArray = new ArrayList<>();
         for (int i = 0; i < 9; i++) {//初始化Cell Array
             List<TextView> cellArray = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
+                // i, j计算所属的Grid(x, y)
                 int x = i < 3 ? 0 : i < 6 ? 1 : 2; //3x3 的格子
                 int y = j < 3 ? 0 : j < 6 ? 1 : 2;
+                // 获得所在的Grid
                 Grid grid = mGridArray.get(x).get(y);
+                // 获得所在的Grid的tvArray
                 List<List<TextView>> gridTextArrays = grid.getTextArrays();
+                // 获得对应的tv
                 TextView cell = gridTextArrays.get(i - x * 3).get(j - y * 3);
+                // 设置相关属性
                 cell.setTag(R.id.row, i);
                 cell.setTag(R.id.column, j);
                 cell.setTag(R.id.isLoad, false);
@@ -108,7 +117,9 @@ public class Board extends RelativeLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        // 更新点中的Cell(TextView)
         mCurrentCell = (TextView) v;
+        // 高亮
         lightUpCellByRowAndColumn((int) v.getTag(R.id.row), (int) v.getTag(R.id.column));
     }
 
@@ -118,7 +129,9 @@ public class Board extends RelativeLayout implements View.OnClickListener {
      * @param number number
      */
     public void inputText(String number) {
+        // 输入number到选中的Cell（tv）
         if (mCurrentCell == null) return;
+        // 如果是可填的（没有被Load题目）
         if (!(Boolean) mCurrentCell.getTag(R.id.isLoad)) {
             mCurrentCell.setText(number);
             boolean gameOver = checkFinish();
@@ -135,6 +148,7 @@ public class Board extends RelativeLayout implements View.OnClickListener {
      */
     public void loadMap(String map) {
         if (TextUtils.isEmpty(map)) return;
+        // 遍历9*9个Cell
         for (int i = 0; i < mCellArray.size(); i++) {
             List<TextView> array = mCellArray.get(i);
             for (int j = 0; j < array.size(); j++) {
@@ -158,8 +172,10 @@ public class Board extends RelativeLayout implements View.OnClickListener {
         boolean finish = false;
         int row = (int) mCurrentCell.getTag(R.id.row);
         int column = (int) mCurrentCell.getTag(R.id.column);
+        // 检查是否有冲突
         boolean error = checkGameError(row, column);
         if (error) {
+            // 有冲突就高亮相同数字的
             lightSameNumber(row, column, true);
         } else {
             finish = true;
@@ -182,21 +198,21 @@ public class Board extends RelativeLayout implements View.OnClickListener {
      * check game error
      *
      * @param row    row
-     * @param column column
+     * @param col column
      * @return boolean
      */
-    private boolean checkGameError(int row, int column) {
+    private boolean checkGameError(int row, int col) {
         boolean result = false;
-        result = checkSection(row, column);
+        result = checkSection(row, col);
         if (result) return result;
         //check row
         for (int i = 0; i < 9; i++) {
-            String value = mCellArray.get(i).get(column).getText().toString();
+            String value = mCellArray.get(i).get(col).getText().toString();
             if (TextUtils.isEmpty(value)) continue;
             for (int j = i; j < 9; j++) {
                 if (i == j) continue;
-                if (value.equals(mCellArray.get(j).get(column).getText().toString())) {
-                    Log.d(TAG, String.format("row error,value:%1$s in row:%2$d and column:%3$d", value, row, column));
+                if (value.equals(mCellArray.get(j).get(col).getText().toString())) {
+                    Log.d(TAG, String.format("row error,value:%1$s in row:%2$d and col:%3$d", value, row, col));
                     result = true;
                     break;
                 }
@@ -212,7 +228,7 @@ public class Board extends RelativeLayout implements View.OnClickListener {
             for (int j = i; j < 9; j++) {
                 if (i == j) continue;
                 if (value.equals(mCellArray.get(row).get(j).getText().toString())) {
-                    Log.d(TAG, String.format("column error,value:%1$s in row:%2$d and column:%3$d", value, row, column));
+                    Log.d(TAG, String.format("column error,value:%1$s in row:%2$d and column:%3$d", value, row, col));
                     result = true;
                     break;
                 }
