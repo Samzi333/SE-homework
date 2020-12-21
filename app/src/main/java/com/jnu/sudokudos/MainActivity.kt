@@ -12,10 +12,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private val dataset: Array<DemosAdapter.Demo> = arrayOf(
-        DemosAdapter.Demo("Sudoku", "简单模式", SudoActivity::class.java),
-        DemosAdapter.Demo("Sudoku", "中等模式", SudoActivity::class.java),
-        DemosAdapter.Demo("Sudoku", "困难模式", SudoActivity::class.java),
-        DemosAdapter.Demo("Sudoku", "教程", SudoActivity::class.java)
+        DemosAdapter.Demo("Sudoku", "简单模式", SSudoActivity::class.java),
+        DemosAdapter.Demo("Sudoku", "中等模式", MSudoActivity::class.java),
+        DemosAdapter.Demo("Sudoku", "困难模式", HSudoActivity::class.java),
+        DemosAdapter.Demo("Sudoku", "教程", TSudoActivity::class.java)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

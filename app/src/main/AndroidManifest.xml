@@ -17,7 +17,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SudoActivity"
+            android:name=".SSudoActivity"
+            android:label="Sudoku" />
+        <activity
+            android:name=".MSudoActivity"
+            android:label="Sudoku" />
+        <activity
+            android:name=".HSudoActivity"
+            android:label="Sudoku" />
+        <activity
+            android:name=".TSudoActivity"
             android:label="Sudoku" />
 <!--        <activity android:name=".MainActivity">-->
 <!--            <intent-filter>-->

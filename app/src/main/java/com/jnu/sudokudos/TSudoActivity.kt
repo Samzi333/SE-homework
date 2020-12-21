@@ -9,7 +9,7 @@ import com.jnu.sudokudos.dataprocess.MapTool
 import com.jnu.sudokudos.dataprocess.Qbank
 import com.jnu.sudokudos.jsudoku.Board
 
-class SudoActivity : AppCompatActivity(), View.OnClickListener {
+class TSudoActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mSudoKu: Board
 
     private lateinit var mSudoConfig: String
@@ -19,7 +19,7 @@ class SudoActivity : AppCompatActivity(), View.OnClickListener {
 
         Qbank.loadMap()
         mSudoKu = findViewById(R.id.board)
-        mSudoConfig = Qbank.getSimpleMap();
+        mSudoConfig = Qbank.getTeachMap();
         mSudoKu.setGameOverCallBack {
             AlertDialog.Builder(this).setTitle("awesome!")
                 .setMessage("Congratulations，you solve the Sudoku!")
