@@ -167,10 +167,10 @@ public class MapTool {
         return result;
     }
 
-    static private boolean checkSection(@NotNull String map, int row, int col) {
+    static public boolean checkSection(@NotNull String map, int row, int col) {
         boolean result = false;
         String value = map.charAt(row*9 + col)+"";
-        if (TextUtils.isEmpty(value)) {
+        if (value.equals("")) {
             return result;
         }
         int start_i = row < 3 ? 0 : (row < 6 ? 3 : 6);//3x3 格子的边界

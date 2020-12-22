@@ -3,10 +3,17 @@ package com.jnu.sudokudos.dataprocess;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
+import com.jnu.sudokudos.BuildConfig;
 
 import java.util.Random;
 
+import static com.jnu.sudokudos.dataprocess.MapTool.isMap;
+
 public class MapToolTest extends TestCase {
+
+    private String testMap =
+            "213456789"+"526789123"+"789123456";
+    private String diffs[] = {"s", "m", "h"};
 
     public void setUp() throws Exception {
         super.setUp();
@@ -48,5 +55,19 @@ public class MapToolTest extends TestCase {
             Assert.assertEquals("m", MapTool.getDiff(str));
         else
             Assert.assertEquals("h", MapTool.getDiff(str));
+    }
+
+    public void testGenMap() {
+        String map;
+        for(String i : diffs){
+            map = MapTool.genMap(i);
+            if (BuildConfig.DEBUG && !isMap(map)) {
+                throw new AssertionError("生成了非法题目");
+            }
+        }
+    }
+
+    public void testCheckSection() {
+        MapTool.checkSection(testMap,1,1);
     }
 }
