@@ -2,7 +2,9 @@ package com.jnu.sudokudos
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.jnu.sudokudos.dataprocess.MapTool
@@ -17,31 +19,47 @@ class SSudoActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sudoku)
 
-        Qbank.loadMap()
         mSudoKu = findViewById(R.id.board)
-        mSudoConfig = Qbank.getSimpleMap();
+        mSudoConfig = MapTool.genFullMap()
         mSudoKu.setGameOverCallBack {
-            AlertDialog.Builder(this).setTitle("awesome!")
-                .setMessage("Congratulations，you solve the Sudoku!")
-                .setNegativeButton("exit") { dialog, which ->
+            AlertDialog.Builder(this).setTitle("")
+                .setMessage("挑战成功！")
+                .setNegativeButton("再看看") { dialog, which ->
                     dialog.dismiss()
                     finish()
                 }
-                .setPositiveButton("Next") { dialog, which ->
+                .setPositiveButton("下一局") { dialog, which ->
                     dialog.dismiss()
-
+                    mSudoConfig = Qbank.getSimpleMap()
+                    mSudoKu.loadMap(mSudoConfig)
                 }
                 .create()
                 .show()
-
         }
         mSudoKu.loadMap(mSudoConfig)
+
+        // 同一题重来
+        var button: Button = findViewById(R.id.button_again)
+        button.setOnClickListener(){
+            mSudoKu.loadMap(mSudoConfig)
+        }
+
+        // 新开一局
+        button = findViewById(R.id.button_next)
+        button.setOnClickListener(){
+            mSudoConfig = Qbank.getSimpleMap()
+            mSudoKu.loadMap(mSudoConfig)
+        }
+
+        // 保存
+        button = findViewById(R.id.button_save)
+        button.setOnClickListener(){
+            Qbank.saveMap(this, "s", mSudoKu.currentMap)
+        }
     }
 
     override fun onClick(v: View?) {
-        var number: TextView = v as TextView
-
+        val number: TextView = v as TextView
         mSudoKu.inputText(number.text.toString())
-
     }
 }

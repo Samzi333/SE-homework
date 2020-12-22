@@ -17,9 +17,8 @@ class MSudoActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sudoku)
 
-        Qbank.loadMap()
         mSudoKu = findViewById(R.id.board)
-        mSudoConfig = Qbank.getMediumMap();
+        mSudoConfig = Qbank.loadMap(this, "m")
         mSudoKu.setGameOverCallBack {
             AlertDialog.Builder(this).setTitle("awesome!")
                 .setMessage("Congratulations，you solve the Sudoku!")

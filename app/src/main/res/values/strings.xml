@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Sudokudos</string>
+    <string name="save">保存</string>
+    <string name="next">下一局</string>
+    <string name="again">重来</string>
 </resources>

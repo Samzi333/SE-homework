@@ -13,7 +13,7 @@ import java.util.Random;
  * 题目工具
  * 主要是为了方便对单道题目的处理
  * 包括：判断是否合法、判断难度、生成题目以及检测冲突
- * 数字的数量划分难度：15~30为难，40~65为中，65~71为简
+ * 数字的数量划分难度：15~30为难，30~45为中，45~60为简
  */
 public class MapTool {
     static public boolean isMap(String map){
@@ -55,6 +55,84 @@ public class MapTool {
             throw new AssertionError("生成了非法题目");
         }
         return map;
+    }
+
+    static public String genFullMap(){
+        StringBuilder map = getZeroMap();
+        int i, j, k, value;
+        Random random = new Random();
+
+        // 初始化
+        int n = 11;
+        int[][] field = new int[10][10];
+        boolean[][] rows = new boolean[10][10];
+        boolean[][] cols = new boolean[10][10];
+        boolean[][] blocks = new boolean[10][10];
+        for(i = 0; i < 9; i++) {
+            for(j = 0; j < 9; j++) {
+                field[i][j] = 0;
+                rows[i][j+1] = false;
+                cols[i][j+1] = false;
+                blocks[i][j+1] = false;
+            }
+        }
+
+        // 随机填入数字
+        while(n > 0) {
+            i = random.nextInt(9);
+            j = random.nextInt(9);
+            if(field[i][j] == 0) {
+                k = i / 3 * 3 + j / 3;
+                value = random.nextInt(9) + 1;
+                if(!rows[i][value] && !cols[j][value] && !blocks[k][value]) {
+                    field[i][j] = value;
+                    rows[i][value] = true;
+                    cols[j][value] = true;
+                    blocks[k][value] = true;
+                    n--;
+                }
+            }
+        }
+
+        for(i = 0; i < 9; i++) {
+            for(j = 0; j < 9; j++) {
+                map.setCharAt(i*9 + j, (field[i][j]+"").charAt(0));
+            }
+        }
+
+        if(dfs(field, rows, cols, blocks))
+            return genFullMap();
+
+        return map.toString();
+    }
+
+    private static boolean dfs(int[][] f, boolean[][] r, boolean[][] c, boolean[][] b) {
+        for(int i = 0; i < 9; i++)
+            for(int j = 0; j < 9; j++)
+                if(f[i][j] == 0) {
+                    int k = i / 3 * 3 + j / 3;
+                    // 尝试填入1~9
+                    for(int n = 1; n < 10; n++) {
+                        if(!r[i][n] && !c[j][n] && !b[k][n]) {
+                            // 尝试填入一个数
+                            r[i][n] = true;
+                            c[j][n] = true;
+                            b[k][n] = true;
+                            f[i][j] = n;
+                            // 检查是否满足数独正解
+                            if(dfs(f, r, c, b))
+                                return true;
+                            // 不满足则回溯
+                            r[i][n] = false;
+                            c[j][n] = false;
+                            b[k][n] = false;
+                            f[i][j] = 0;
+                        }
+                    }
+                    // 尝试所有数字都不满足则回溯
+                    return false;
+                }
+        return true;
     }
 
     @NotNull

@@ -158,6 +158,9 @@ public class Board extends RelativeLayout implements View.OnClickListener {
                     cell.setText(s);
                     cell.setTag(R.id.isLoad, true);
                     cell.setTextColor(Color.parseColor(mDisableTextColor));
+                }else {
+                    cell.setTag(R.id.isLoad, false);
+                    cell.setText("");
                 }
             }
         }
@@ -359,5 +362,17 @@ public class Board extends RelativeLayout implements View.OnClickListener {
 
     public interface GameOverCallBack {
         void gameOver();
+    }
+
+    public String getCurrentMap(){
+        StringBuilder map= new StringBuilder();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                map.append(mCellArray.get(i).get(j).getText().toString());
+            }
+        }
+
+        return map.toString();
     }
 }

@@ -17,7 +17,6 @@ class TSudoActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sudoku)
 
-        Qbank.loadMap()
         mSudoKu = findViewById(R.id.board)
         mSudoConfig = Qbank.getTeachMap();
         mSudoKu.setGameOverCallBack {

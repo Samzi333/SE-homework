@@ -13,11 +13,12 @@
         android:layout_marginTop="15dp" />
 
     <RelativeLayout
+        android:id="@+id/rl_numbers"
         android:layout_width="148dp"
         android:layout_height="157dp"
         android:layout_below="@id/board"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/one_number_label"
@@ -145,5 +146,31 @@
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_numbers"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next" />
+
+        <Button
+            android:id="@+id/button_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/again" />
+    </LinearLayout>
 
 </RelativeLayout>
