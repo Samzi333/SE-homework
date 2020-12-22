@@ -20,7 +20,7 @@ class SSudoActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_sudoku)
 
         mSudoKu = findViewById(R.id.board)
-        mSudoConfig = MapTool.genFullMap()
+        mSudoConfig = Qbank.loadMap(this, "s")
         mSudoKu.setGameOverCallBack {
             AlertDialog.Builder(this).setTitle("")
                 .setMessage("挑战成功！")

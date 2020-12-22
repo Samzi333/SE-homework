@@ -77,9 +77,4 @@ public class Qbank {
     public static String getTeachMap() {
         return teachMap;
     }
-
-    static private String maps[] = {
-            "060200090"+"470510208"+"025000004"+"700052000"+"209000007"+"00400025"+"590008100"+"000691000"+"806000430",
-
-    };
 }

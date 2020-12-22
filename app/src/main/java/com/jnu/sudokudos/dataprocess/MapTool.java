@@ -57,87 +57,9 @@ public class MapTool {
         return map;
     }
 
-    static public String genFullMap(){
-        StringBuilder map = getZeroMap();
-        int i, j, k, value;
-        Random random = new Random();
-
-        // 初始化
-        int n = 11;
-        int[][] field = new int[10][10];
-        boolean[][] rows = new boolean[10][10];
-        boolean[][] cols = new boolean[10][10];
-        boolean[][] blocks = new boolean[10][10];
-        for(i = 0; i < 9; i++) {
-            for(j = 0; j < 9; j++) {
-                field[i][j] = 0;
-                rows[i][j+1] = false;
-                cols[i][j+1] = false;
-                blocks[i][j+1] = false;
-            }
-        }
-
-        // 随机填入数字
-        while(n > 0) {
-            i = random.nextInt(9);
-            j = random.nextInt(9);
-            if(field[i][j] == 0) {
-                k = i / 3 * 3 + j / 3;
-                value = random.nextInt(9) + 1;
-                if(!rows[i][value] && !cols[j][value] && !blocks[k][value]) {
-                    field[i][j] = value;
-                    rows[i][value] = true;
-                    cols[j][value] = true;
-                    blocks[k][value] = true;
-                    n--;
-                }
-            }
-        }
-
-        for(i = 0; i < 9; i++) {
-            for(j = 0; j < 9; j++) {
-                map.setCharAt(i*9 + j, (field[i][j]+"").charAt(0));
-            }
-        }
-
-        if(dfs(field, rows, cols, blocks))
-            return genFullMap();
-
-        return map.toString();
-    }
-
-    private static boolean dfs(int[][] f, boolean[][] r, boolean[][] c, boolean[][] b) {
-        for(int i = 0; i < 9; i++)
-            for(int j = 0; j < 9; j++)
-                if(f[i][j] == 0) {
-                    int k = i / 3 * 3 + j / 3;
-                    // 尝试填入1~9
-                    for(int n = 1; n < 10; n++) {
-                        if(!r[i][n] && !c[j][n] && !b[k][n]) {
-                            // 尝试填入一个数
-                            r[i][n] = true;
-                            c[j][n] = true;
-                            b[k][n] = true;
-                            f[i][j] = n;
-                            // 检查是否满足数独正解
-                            if(dfs(f, r, c, b))
-                                return true;
-                            // 不满足则回溯
-                            r[i][n] = false;
-                            c[j][n] = false;
-                            b[k][n] = false;
-                            f[i][j] = 0;
-                        }
-                    }
-                    // 尝试所有数字都不满足则回溯
-                    return false;
-                }
-        return true;
-    }
-
     @NotNull
     static public String genMap(@NotNull String diff) {
-        int count = 0;
+//        int count = 0;
         Random rand = new Random();
 
         if (BuildConfig.DEBUG && !"smh".contains(diff)) {
@@ -146,53 +68,50 @@ public class MapTool {
         // 通过难度控制给出数字的数量
         switch (diff) {
             case "s":
-                count = rand.nextInt(60 - 45) + 45;
-                break;
+                return simpleMaps[rand.nextInt(simpleMaps.length)];
             case "m":
-                count = rand.nextInt(45 - 30) + 30;
-                break;
+                return mediumMaps[rand.nextInt(mediumMaps.length)];
             case "h":
-                count = rand.nextInt(30 - 15) + 15;
-                break;
+                return hardMaps[rand.nextInt(hardMaps.length)];
             default:
-                break;
+                return getZeroMap().toString();
         }
 
-        // 空题目
-        StringBuilder map = getZeroMap();
+//        // 空题目
+//        StringBuilder map = getZeroMap();
+//
+//        // 随机填数
+//        int idx, tmp;
+//        char numbers[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+//        char number;
+//        // 填count个位置
+//        for (int i = 0; i < count; ++i) {
+//            idx = rand.nextInt(81);
+//            number = numbers[rand.nextInt(numbers.length)];
+//
+//            // 避免重复位置
+//            while (map.charAt(idx) != '0') {
+//                idx = rand.nextInt(81);
+//            }
+//
+//            // 避免冲突
+//            // 或许有可能死循环？
+//            tmp = 0;
+//            map.setCharAt(idx, number);
+//            while (tmp < 10 && checkError(map.toString(), idx)) {
+//                map.setCharAt(idx, '0');
+//                number = numbers[rand.nextInt(numbers.length)];
+//                map.setCharAt(idx, number);
+//                tmp++;
+//            }
+//            // tmp用于防止死循环，此次填数无效化
+//            if(tmp >= 10) {
+//                map.setCharAt(idx, '0');
+//                i--;
+//            }
+//        }
 
-        // 随机填数
-        int idx, tmp;
-        char numbers[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        char number;
-        // 填count个位置
-        for (int i = 0; i < count; ++i) {
-            idx = rand.nextInt(81);
-            number = numbers[rand.nextInt(numbers.length)];
-
-            // 避免重复位置
-            while (map.charAt(idx) != '0') {
-                idx = rand.nextInt(81);
-            }
-
-            // 避免冲突
-            // 或许有可能死循环？
-            tmp = 0;
-            map.setCharAt(idx, number);
-            while (tmp < 10 && checkError(map.toString(), idx)) {
-                map.setCharAt(idx, '0');
-                number = numbers[rand.nextInt(numbers.length)];
-                map.setCharAt(idx, number);
-                tmp++;
-            }
-            // tmp用于防止死循环，此次填数无效化
-            if(tmp >= 10) {
-                map.setCharAt(idx, '0');
-                i--;
-            }
-        }
-
-        return map.toString();
+//        return map.toString();
     }
 
     @NotNull
@@ -267,4 +186,19 @@ public class MapTool {
         }
         return result;
     }
+
+    static private String simpleMaps[] = {
+            "500091703"+"420003000"+"010800000"+"640002019"+"700010004"+"180900057"+"000006030"+"000200046"+"906340002",
+            "920001003"+"100030007"+"000085906"+"040510090"+"010900704"+"002070000"+"000157060"+"509006070"+"001400800",
+            "703000020"+"000005403"+"008630100"+"000903804"+"010027000"+"309080002"+"240050090"+"030006040"+"600400705",
+    };
+    static private String mediumMaps[] = {
+            "200800070"+"003000910"+"700306000"+"004062800"+"620005000"+"050000607"+"030070009"+"042000730"+"006950002",
+            "090008000"+"000100062"+"608050000"+"500360400"+"001000030"+"086001250"+"400200005"+"060000903"+"100003000",
+            "600000720"+"000062009"+"200030080"+"000009072"+"007185000"+"305000100"+"048000090"+"070000803"+"000250000"
+    };
+    static private String hardMaps[] = {
+            "020006000"+"000800670"+"003000040"+"510300000"+"000092001"+"000700360"+"000020003"+"207040000"+"930001000",
+            "000050480"+"010000900"+"080009000"+"001060003"+"700000000"+"290807000"+"008040005"+"003106002"+"004000600"
+    };
 }

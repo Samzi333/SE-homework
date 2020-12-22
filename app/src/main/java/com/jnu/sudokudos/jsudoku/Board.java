@@ -366,10 +366,14 @@ public class Board extends RelativeLayout implements View.OnClickListener {
 
     public String getCurrentMap(){
         StringBuilder map= new StringBuilder();
+        String s;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                map.append(mCellArray.get(i).get(j).getText().toString());
+                s = mCellArray.get(i).get(j).getText().toString();
+                if("".equals(s))
+                    s = "0";
+                map.append(s);
             }
         }
 
