@@ -13,14 +13,6 @@ import java.util.Map;
 import java.util.Random;
 
 public class Qbank {
-    static private String defaultMap =
-            "005406000"+"000000201"+"007380000"+
-            "062700090"+"050023804"+"704109060"+
-            "823590010"+"490867020"+"576031948";
-    static private String teachMap =
-            "123456789"+"456789123"+"789123456"+
-            "231564978"+"564807312"+"897231645"+
-            "310645897"+"645978231"+"978312564";
     static private Map<String, String> currentMaps = new HashMap<String, String>();
     static private final String SAVE_FILE_NAME = "date.txt";
 
@@ -71,10 +63,10 @@ public class Qbank {
     }
 
     static public String getDefaultMap(){
-        return defaultMap;
+        return MapTool.getDefaultMap();
     }
 
     public static String getTeachMap() {
-        return teachMap;
+        return MapTool.getTeachMap();
     }
 }

@@ -133,7 +133,9 @@ public class Board extends RelativeLayout implements View.OnClickListener {
         if (mCurrentCell == null) return;
         // 如果是可填的（没有被Load题目）
         if (!(Boolean) mCurrentCell.getTag(R.id.isLoad)) {
-            mCurrentCell.setText(number);
+            if("0".equals(number)) mCurrentCell.setText("");
+            else mCurrentCell.setText(number);
+
             boolean gameOver = checkFinish();
             if (gameOver) {
                 if (mGameOverCallBack != null) mGameOverCallBack.gameOver();
@@ -297,7 +299,7 @@ public class Board extends RelativeLayout implements View.OnClickListener {
         String value = mCellArray.get(row).get(column).getText().toString();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (value.equals(mCellArray.get(i).get(j).getText().toString())) {
+                if (value.equals(mCellArray.get(i).get(j).getText().toString()) && !"".equals(value)) {
                     //change number color
                     if (i == row && column == j) {
                         //If it is wrong, change the text color without changing the background.

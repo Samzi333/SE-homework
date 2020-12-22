@@ -25,7 +25,6 @@ class MSudoActivity : AppCompatActivity(), View.OnClickListener {
                 .setMessage("挑战成功！")
                 .setNegativeButton("再看看") { dialog, which ->
                     dialog.dismiss()
-                    finish()
                 }
                 .setPositiveButton("下一局") { dialog, which ->
                     dialog.dismiss()

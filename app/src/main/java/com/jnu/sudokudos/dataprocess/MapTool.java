@@ -62,8 +62,8 @@ public class MapTool {
 //        int count = 0;
         Random rand = new Random();
 
-        if (BuildConfig.DEBUG && !"smh".contains(diff)) {
-            throw new AssertionError("难度请使用s、m、h");
+        if (BuildConfig.DEBUG && !"smht".contains(diff)) {
+            throw new AssertionError("难度请使用s、m、h、t");
         }
         // 通过难度控制给出数字的数量
         switch (diff) {
@@ -73,6 +73,8 @@ public class MapTool {
                 return mediumMaps[rand.nextInt(mediumMaps.length)];
             case "h":
                 return hardMaps[rand.nextInt(hardMaps.length)];
+            case "t":
+                return teachMap;
             default:
                 return getZeroMap().toString();
         }
@@ -201,4 +203,19 @@ public class MapTool {
             "020006000"+"000800670"+"003000040"+"510300000"+"000092001"+"000700360"+"000020003"+"207040000"+"930001000",
             "000050480"+"010000900"+"080009000"+"001060003"+"700000000"+"290807000"+"008040005"+"003106002"+"004000600"
     };
+    static private String defaultMap =
+            "005406000"+"000000201"+"007380000"+
+                    "062700090"+"050023804"+"704109060"+
+                    "823590010"+"490867020"+"576031948";
+    static private String teachMap =
+            "123456789"+"456789123"+"789123456"+
+                    "231564978"+"564807312"+"897231645"+
+                    "310645897"+"645978231"+"978312564";
+    public static String getDefaultMap() {
+        return defaultMap;
+    }
+
+    public static String getTeachMap() {
+        return teachMap;
+    }
 }
